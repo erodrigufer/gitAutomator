@@ -80,6 +80,17 @@ ALL_FILES_OK='YES' # variable to check if all files are appropriate
 FILES_OK='' # variable to store files that exist
 FILES_NOT_EXIST='' # variable to store files that don't exist
 
+
+# check if the input to the function is not empty,
+# if empty ALL_FILES_OK=NO -> return out of function
+
+# check if $FILES_TO_CHECK string has a length of zero
+if [ -z "$FILES_TO_CHECK" ]; then
+	ALL_FILES_OK='NO'
+	return 0 # end function, since no input
+fi
+
+
 # go through until no more positional parameters
 while [[ $# -gt 0 ]]; do
 	if [ -e "$1" ]; then # check if file exists
