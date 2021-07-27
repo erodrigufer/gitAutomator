@@ -100,7 +100,25 @@ echo "FILES NOT OK: $FILES_NOT_EXIST"
 ###^
 }
 
+main(){
+# INPUT_MAIN can be either "YES" or "NO"
+local INPUT_MAIN=$1
 
+if [ "$INPUT_MAIN" == "YES" ]; then
+	check_files_regular_exist $files
+	exit 0
+fi
+
+if [ "$INPUT_MAIN" == "NO" ]; then
+	echo "No files"
+	read -p "Files to check > "
+	check_files_regular_exist $REPLY
+	exit 0
+fi
+
+
+}
+# -----------------------------------------------------------------------------
 
 # $@ expands into a list of all positional parameters, starting with 1, from the positional parameters 
 # of the script being run
@@ -109,8 +127,13 @@ check_flags $@
 # store the echo output of the function check_files_are_listed
 # as a variable
 LISTED_FILES="$(check_files_are_listed)"
+INPUT_MAIN=$LISTED_FILES
 
-if [ "$LISTED_FILES" == "YES" ]; then
-	check_files_regular_exist $files
-fi
+# while loop for main program body
+while true; do
+
+	main $INPUT_MAIN
+
+done
+
 
