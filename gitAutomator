@@ -110,6 +110,8 @@ while [[ $# -gt 0 ]]; do
 	shift
 done
 
+return 0
+
 ###v
 echo "FILES OK: $FILES_OK"
 echo "FILES NOT OK: $FILES_NOT_EXIST"
@@ -136,6 +138,21 @@ main(){
 
 	# Check if files exist and are regular files
 	check_files_regular_exist $FILES_TO_CHECK
+
+	# Check if all files are ok after check
+	if [ "$ALL_FILES_OK" == "YES" ]; then
+		# Add files to commit
+		echo "You want to add the following files to your commit: $FILES_OK"
+		#git add "$FILES_OK"
+		#git status
+		
+		# Ask for a commit message
+		read -p "Add a commit message: > "
+		#git commit -m "$REPLY"
+		echo "Commit message: $REPLY"
+		#git push
+		exit 0
+	fi
 
 }
 # -----------------------------------------------------------------------------
