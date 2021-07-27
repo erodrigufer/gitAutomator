@@ -1,0 +1,116 @@
+#!/bin/bash
+# References:
+# 1) https://stackoverflow.com/questions/7069682/how-to-get-arguments-with-flags-in-bash
+# 2) https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html
+
+# Global variables
+m_flag=''
+h_flag=''
+files=''
+
+print_usage() {
+  printf "Usage: ..."
+	}
+
+check_flags() {
+while getopts 'mh' flag; do
+# Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
+# If it does not provide an argument an error message will be shown
+	case "${flag}" in
+	h) h_flag='true' 
+		print_usage
+		exit 0;; # h_flag was specified
+	m) m_flag='true' ;; # m_flag was specified
+	*) print_usage # the case when an undefined flag is used
+			 exit 1 ;; # print usage and exit with an error
+	esac
+done
+
+echo "OPTIND= $OPTIND"
+# OPTIND equals 2 if the -m option is specified, if no flag is specified then OPTIND equals 1
+shift $(( OPTIND -1 ))
+
+
+####v
+# if unequal to zero, then flag was defined and exists
+if [ ! -z "$m_flag" ]; then
+	printf "Option -m specified. Multiple commits mode.\n"
+fi
+
+if [ ! -z "$h_flag" ]; then
+	printf "Option -h specified. Display help/usage menu.\n"
+fi
+####^
+
+# store all files listed (also no files possible)
+files=$@
+
+####v
+printf "Files: "
+for file in "$@"; do
+	printf "%s " $file
+done
+
+# new line
+printf "\n"
+
+echo "files pruebilla: $files"
+####^
+
+
+return 0
+}
+
+check_files_are_listed() {
+# check if $files string is greater than zero
+if [ -n "$files" ]; then
+	echo "YES" # there were files listed
+else
+	echo "NO" # no files were listed
+fi
+
+return 0
+}
+
+check_files_regular_exist(){
+
+local FILES_TO_CHECK=$@ # all inputs to this function will be checked
+local ALL_FILES_OK='' # variable to check if all files are appropriate
+local FILES_OK='' # variable to store files that exist
+local FILES_NOT_EXIST='' # variable to store files that don't exist
+
+# go through until no more positional parameters
+while [[ $# -gt 0 ]]; do
+	if [ -e "$1" ]; then # check if file exists
+		if [ -f "$1" ]; then # check if file is a regular file
+			FILES_OK=""$FILES_OK" $1" # append to FILES_OK
+		else # file is not a regular file
+		FILES_NOT_EXIST=""$FILES_NOT_EXIST" $1" # append to FILES_NOT_EXIST
+		fi
+	else # file does not exist
+		FILES_NOT_EXIST=""$FILES_NOT_EXIST" $1" # append to FILES_NOT_EXIST
+	fi
+	# shift positional parameters
+	shift
+done
+
+###v
+echo "FILES OK: $FILES_OK"
+echo "FILES NOT OK: $FILES_NOT_EXIST"
+###^
+}
+
+
+
+# $@ expands into a list of all positional parameters, starting with 1, from the positional parameters 
+# of the script being run
+check_flags $@
+
+# store the echo output of the function check_files_are_listed
+# as a variable
+LISTED_FILES="$(check_files_are_listed)"
+
+if [ "$LISTED_FILES" == "YES" ]; then
+	check_files_regular_exist $files
+fi
+
