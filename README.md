@@ -19,3 +19,5 @@ s: Print git status at the start of the script
 * Probably handle the cases in which git fails, for example, when there is no connection and it cannot be pushed, by reading the output of git push and git commit (!= 0 then there was an error)
 
 * For the -s option, maybe use git-status -s which is the flag for the _short_ display of git-status
+
+* Think how to handle the situation when the -h flag is used with some other flag(s). This is in theory an invalid input.
