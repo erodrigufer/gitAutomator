@@ -12,7 +12,7 @@ s: Print git status at the start of the script
 
 ```
 ## Releases
-* v1.0.0 should be able to handle all flags appropriately (except -h and -s). Nonetheless, it is a MVP and should facilitate your git commits handling massively.
+* v1.0.0 should be able to handle all flags appropriately (except -h and -s). Nonetheless, it is a MVP and should improve your git commits handling massively.
 
 
 ## TO DO:
