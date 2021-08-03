@@ -7,7 +7,7 @@ usage: gitAutomator [-h] [-ms] [file ...]
 
 h: Display usage/ man page
 
-m: Perform multiple commits 
+m: Perform multiple commits with one single call of this script
 s: Print git status at the start of the script
 
 ```
