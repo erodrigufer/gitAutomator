@@ -163,7 +163,7 @@ main(){
 			# store the output of piping the echo of the reply to tr,
 			# in order to use tr to translate all uppercase letters to lowercase letter
 			# (if necessary)
-			$UI_MORE_FILES="$(echo $REPLY | tr '[:upper:]' '[:lower:]')"
+			$UI_MORE_FILES="$(echo $REPLY | tr [:upper:] [:lower:])"
 
 			# add more files to the commit
 			if [ "$UI_MORE_FILES" == "y" ]; then
