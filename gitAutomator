@@ -178,6 +178,11 @@ main(){
 			fi
 		fi # -- some files are OK
 
+		# if NO files are OK
+		if [ -z "$FILES_OK" ]; then
+			echo "The files used as input were either non-existing or not regular files!"
+		fi #-- NO files are OK
+
 	fi # -- ALL_FILES_OK = NO
 		
 # ----------------------------------------------------------------
