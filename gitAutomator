@@ -95,7 +95,7 @@ fi
 while [[ $# -gt 0 ]]; do
 	if [ -e "$1" ]; then # check if file exists
 		if [ -f "$1" ]; then # check if file is a regular file
-			FILES_OK=""$FILES_OK" $1" # append to FILES_OK
+			FILES_OK+="$1 " # append to FILES_OK
 		else # file is not a regular file
 		FILES_NOT_EXIST=""$FILES_NOT_EXIST" $1" # append to FILES_NOT_EXIST
 		# at least one file is not regular
@@ -143,21 +143,22 @@ main(){
 	if [ "$ALL_FILES_OK" == "YES" ]; then
 		# Add files to commit
 		echo "You want to add the following files to your commit: $FILES_OK"
-		#git add "$FILES_OK"
-		#git status
+		git add "$FILES_OK"
+		git status
 		
 		# Ask for a commit message
 		read -p "Add a commit message: > "
-		#git commit -m "$REPLY"
+		git commit -m "$REPLY"
 		echo "Commit message: $REPLY"
-		#git push
+		git push --quiet && echo "The commit has been pushed"
+		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
 		exit 0
 	fi
 
 }
 # -----------------------------------------------------------------------------
 
-# $@ expands into a list of all positional parameters, starting with 1, from the positional parameters 
+# '$@' expands into a list of all positional parameters, starting with 1, from the positional parameters 
 # of the script being run
 check_flags $@
 
