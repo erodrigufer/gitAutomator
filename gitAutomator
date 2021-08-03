@@ -200,9 +200,10 @@ main(){
 		git push --quiet && echo "Commit(s) pushed successfully!"
 		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
 		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
-		exit 0
+		exit 0 # exit the script successfully
 	fi # -- NO m flag
 
+## TODO!! probably handle the cases in which git fails, for example, when there is no connection and it cannot be pushed, by reading the output of git push and git commit (!= 0 then there was an error)
 
 }
 # -----------------------------------------------------------------------------
