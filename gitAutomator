@@ -181,6 +181,9 @@ main(){
 		# if NO files are OK
 		if [ -z "$FILES_OK" ]; then
 			echo "The files used as input were either non-existing or not regular files!"
+			ls -l # print all available files in the current folder	
+			INPUT_MAIN="NO" # input main is now NO, so that it starts the loop back by asking for more files
+			return # exit the function main, in order to start the function back again from the beginning
 		fi #-- NO files are OK
 
 	fi # -- ALL_FILES_OK = NO
@@ -194,7 +197,7 @@ main(){
 	git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
 	# if the m flag has zero length (not defined/false), then exit the program successfully, since no more commits are desired
 	if [ -z "$m_flag" ]; then
-		git push --quiet && echo "The commit(s) has been pushed"
+		git push --quiet && echo "Commit(s) pushed successfully!"
 		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
 		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
 		exit 0
