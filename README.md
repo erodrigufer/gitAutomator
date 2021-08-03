@@ -3,7 +3,7 @@
 Bash script to automatize creating and pushing commits to a git repository.
 
 ```
-usage: gitAutomator [h] [ms] [file ...] 
+usage: gitAutomator [-h] [-ms] [file ...] 
 
 h: Display usage/ man page
 
