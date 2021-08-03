@@ -145,7 +145,7 @@ main(){
 	# Check if all files are ok after check
 	if [ "$ALL_FILES_OK" == "YES" ]; then
 		# Add files to commit
-		git add ${FILES_OK} && echo "You want to add the following files to your commit: $FILES_OK"
+		git add ${FILES_OK} && echo "The following files were added to your commit: $FILES_OK"
 
 		#git status
 		
@@ -157,7 +157,7 @@ main(){
 		# check if $FILES_OK is NOT empty/length is unequal to 0 (! -z)
 		if [ ! -z  "$FILES_OK" ]; then
 		# add the files that exist and are regular to the commit
-			git add ${FILES_OK} && echo "You want to add the following files to your commit: $FILES_OK"
+			git add ${FILES_OK} && echo "The following files were added to your commit: $FILES_OK"
 
 			read -p "Do you want to add more files to the commit? (y/n) > "
 			# store the output of piping the echo of the reply to tr,
@@ -171,8 +171,14 @@ main(){
 				INPUT_MAIN="NO" # input main is now NO, so that it starts the loop back by asking for more files
 				return # exit the function main, in order to start the function back again from the beginning
 			fi
-		fi
-	fi
+			# the input wasn't either 'y' or 'n'
+			# if the input was n it is going to jump to the line asking for a commit message anyways
+			if [ "$UI_MORE_FILES" != "n" ]; then
+						echo "Invalid input, proceeding to add commit message for the files added until now."
+			fi
+		fi # -- some files are OK
+
+	fi # -- ALL_FILES_OK = NO
 		
 # ----------------------------------------------------------------
 
