@@ -129,6 +129,8 @@ main(){
 	local INPUT_MAIN=$1
 
 	local FILES_TO_CHECK=$files
+	
+	local UI_MORE_FILES=''
 
 	if [ "$INPUT_MAIN" == "NO" ]; then
 		# Use the output of ask_for_files as the variable for files to check
@@ -139,35 +141,53 @@ main(){
 	# Check if files exist and are regular files
 	check_files_regular_exist $FILES_TO_CHECK
 
+# ----------------------------------------------------------------
 	# Check if all files are ok after check
 	if [ "$ALL_FILES_OK" == "YES" ]; then
 		# Add files to commit
-		echo "You want to add the following files to your commit: $FILES_OK"
-		git add ${FILES_OK}
-		git status
+		git add ${FILES_OK} && echo "You want to add the following files to your commit: $FILES_OK"
+
+		#git status
 		
-		# Ask for a commit message
-		read -p "Add a commit message: > "
-		# if commit is accepted, print the commit message
-		git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
-		# if the m flag has zero length (not defined/false), then exit the program successfully, since no more commits are desired
-		if [ -z "$m_flag" ]; then
-			git push --quiet && echo "The commit(s) has been pushed"
-		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
-		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
-				exit 0
-		fi
 	fi # ---- check if all files exist and are regular files "YES"
+# ----------------------------------------------------------------
 
-
-# check if $FILES_TO_CHECK string has a length of zero
-# if [ -z "$FILES_TO_CHECK" ]; then
+# some files used as input do not exist or are no regular files
 	if [ "$ALL_FILES_OK" == "NO" ]; then
 		# check if $FILES_OK is NOT empty/length is unequal to 0 (! -z)
 		if [ ! -z  "$FILES_OK" ]; then
-		echo "some files exist"
+		# add the files that exist and are regular to the commit
+			git add ${FILES_OK} && echo "You want to add the following files to your commit: $FILES_OK"
+
+			read -p "Do you want to add more files to the commit? (y/n) > "
+			# store the output of piping the echo of the reply to tr,
+			# in order to use tr to translate all uppercase letters to lowercase letter
+			# (if necessary)
+			$UI_MORE_FILES="$(echo $REPLY | tr '[:upper:]' '[:lower:]')"
+
+			# add more files to the commit
+			if [ "$UI_MORE_FILES" == "y" ]; then
+				ls -l # print all available files in the current folder
+				$INPUT_MAIN="NO" # input main is now NO, so that it starts the loop back by asking for more files
+				return # exit the function main, in order to start the function back again from the beginning
+			fi
 		fi
 	fi
+		
+# ----------------------------------------------------------------
+
+
+	# Ask for a commit message
+	read -p "Add a commit message: > "
+	# if commit is accepted, print the commit message
+	git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+	# if the m flag has zero length (not defined/false), then exit the program successfully, since no more commits are desired
+	if [ -z "$m_flag" ]; then
+		git push --quiet && echo "The commit(s) has been pushed"
+		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
+		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
+		exit 0
+	fi # -- NO m flag
 
 
 }
