@@ -4,9 +4,9 @@
 # 2) https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html
 
 # Global variables
-m_flag=''
-h_flag=''
-files=''
+m_flag='false'
+h_flag='false'
+files='false'
 
 print_usage() {
   printf "Usage: ..."
@@ -152,7 +152,7 @@ main(){
 		echo "Commit message: $REPLY"
 		git push --quiet && echo "The commit has been pushed"
 		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
-		if ["$m_flag" == "" ]; then
+		if ["$m_flag" == "false" ]; then
 			# if the m flag is not true, then exit the program successfully, since no more commits are desired
 			exit 0
 		fi
