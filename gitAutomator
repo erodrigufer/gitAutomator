@@ -35,7 +35,6 @@ while getopts 'mh' flag; do
 	esac
 done
 
-echo "OPTIND= $OPTIND"
 # OPTIND equals 2 if the -m option is specified, if no flag is specified then OPTIND equals 1
 shift $(( OPTIND -1 ))
 
