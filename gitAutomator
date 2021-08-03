@@ -205,7 +205,36 @@ main(){
 
 ## TODO!! probably handle the cases in which git fails, for example, when there is no connection and it cannot be pushed, by reading the output of git push and git commit (!= 0 then there was an error)
 
-}
+	# if the m flag was used, then multiple commits mode
+	if [ ! -z "m_flag" ]; then
+		read -p "Do you want to perform more commits? (y/n) > "
+		# store the output of piping the echo of the reply to tr,
+		# in order to use tr to translate all uppercase letters to lowercase letter
+		# (if necessary)
+		local UI_MORE_COMMITS="$(echo "$REPLY" | tr [:upper:] [:lower:])"
+
+		# (n) no more commits will be performed
+		if [ "$UI_MORE_COMMITS" == "n" ]; then
+			git push --quiet && echo "Commit(s) pushed successfully!"
+			# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
+			# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
+			exit 0 # exit the script successfully
+		fi # --(n) no more commits
+
+		# (y) more commits will be performed start all over with the main function
+		if [ "$UI_MORE_COMMITS" == "y" ]; then
+			INPUT_MAIN="NO" # input main is now NO, so that it starts the loop back by asking for more files
+			return # exit the function main, in order to start the function back again from the beginning
+		
+		else # in this case, neither 'y' nor 'n' was used as input, push commits until now, and exit script (invalid input)
+			echo "Invalid input, proceeding to push all commits until now and exiting script!"
+		fi # --(y) more commits
+
+
+	fi #- m flag SELECTED
+
+
+} #-- main
 # -----------------------------------------------------------------------------
 
 # '$@' expands into a list of all positional parameters, starting with 1, from the positional parameters 
