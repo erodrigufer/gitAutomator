@@ -126,7 +126,7 @@ ask_for_files() {
 
 main(){
 	# INPUT_MAIN can be either "YES" or "NO"
-	local INPUT_MAIN=$1
+	INPUT_MAIN=$1
 
 	local FILES_TO_CHECK=$files
 	
