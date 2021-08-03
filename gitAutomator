@@ -4,9 +4,9 @@
 # 2) https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html
 
 # Global variables
-m_flag='false'
-h_flag='false'
-files='false'
+m_flag=''
+h_flag=''
+files=''
 
 print_usage() {
   printf "Usage: ..."
@@ -150,15 +150,24 @@ main(){
 		read -p "Add a commit message: > "
 		# if commit is accepted, print the commit message
 		git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
-		# if the m flag is not true, then exit the program successfully, since no more commits are desired
-		if [ "$m_flag" == "false" ]; then
+		# if the m flag has zero length (not defined/false), then exit the program successfully, since no more commits are desired
+		if [ -z "$m_flag" ]; then
 			git push --quiet && echo "The commit(s) has been pushed"
 		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
-		# only if the commits were successfully pushed then echo to stdout that the commits were pushed
+		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
 				exit 0
 		fi
-	fi # ---- check if all files exist and are regular files
+	fi # ---- check if all files exist and are regular files "YES"
 
+
+# check if $FILES_TO_CHECK string has a length of zero
+# if [ -z "$FILES_TO_CHECK" ]; then
+	if [ "$ALL_FILES_OK" == "NO" ]; then
+		# check if $FILES_OK is NOT empty/length is unequal to 0 (! -z)
+		if [ ! -z  "$FILES_OK" ]; then
+		echo "some files exist"
+		fi
+	fi
 
 
 }
