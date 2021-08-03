@@ -148,9 +148,9 @@ main(){
 		
 		# Ask for a commit message
 		read -p "Add a commit message: > "
-		git commit -m "$REPLY" > commitMessage.txt
-		echo "Commit message: $REPLY"
-			# if the m flag is not true, then exit the program successfully, since no more commits are desired
+		# if commit is accepted, print the commit message
+		git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+		# if the m flag is not true, then exit the program successfully, since no more commits are desired
 		if [ "$m_flag" == "false" ]; then
 			git push --quiet && echo "The commit(s) has been pushed"
 		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
