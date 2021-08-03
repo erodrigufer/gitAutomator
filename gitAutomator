@@ -148,15 +148,18 @@ main(){
 		
 		# Ask for a commit message
 		read -p "Add a commit message: > "
-		git commit -m "$REPLY"
+		git commit -m "$REPLY" > commitMessage.txt
 		echo "Commit message: $REPLY"
-		git push --quiet && echo "The commit has been pushed"
-		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
-		if [ "$m_flag" == "false" ]; then
 			# if the m flag is not true, then exit the program successfully, since no more commits are desired
-			exit 0
+		if [ "$m_flag" == "false" ]; then
+			git push --quiet && echo "The commit(s) has been pushed"
+		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
+		# only if the commits were successfully pushed then echo to stdout that the commits were pushed
+				exit 0
 		fi
-	fi
+	fi # ---- check if all files exist and are regular files
+
+
 
 }
 # -----------------------------------------------------------------------------
