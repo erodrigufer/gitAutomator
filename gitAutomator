@@ -8,9 +8,18 @@ m_flag=''
 h_flag=''
 files=''
 
-print_usage() {
-  printf "Usage: ..."
-	}
+print_usage () {
+ 
+	# basename removes the trailing path for the program name
+	# the full program path can be always found in $0 
+	local PROGNAME=$(basename $0)
+
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-ms] [file ...] 
+	-h Display usage/ man page
+	-m Perform multiple commits with one single call of the $PROGNAME script
+	-s Print git status at the start of the script"
+	return
+}
 
 check_flags() {
 while getopts 'mh' flag; do
@@ -30,34 +39,8 @@ echo "OPTIND= $OPTIND"
 # OPTIND equals 2 if the -m option is specified, if no flag is specified then OPTIND equals 1
 shift $(( OPTIND -1 ))
 
-
-####v
-# if unequal to zero, then flag was defined and exists
-if [ ! -z "$m_flag" ]; then
-	printf "Option -m specified. Multiple commits mode.\n"
-fi
-
-if [ ! -z "$h_flag" ]; then
-	printf "Option -h specified. Display help/usage menu.\n"
-fi
-####^
-
 # store all files listed (also no files possible)
 files=$@
-
-####v
-printf "Files: "
-for file in "$@"; do
-	printf "%s " $file
-done
-
-# new line
-printf "\n"
-
-echo "files pruebilla: $files"
-####^
-
-
 return 0
 }
 
@@ -112,10 +95,6 @@ done
 
 return 0
 
-###v
-echo "FILES OK: $FILES_OK"
-echo "FILES NOT OK: $FILES_NOT_EXIST"
-###^
 }
 
 ask_for_files() {
