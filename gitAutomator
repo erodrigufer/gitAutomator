@@ -143,7 +143,7 @@ main(){
 	if [ "$ALL_FILES_OK" == "YES" ]; then
 		# Add files to commit
 		echo "You want to add the following files to your commit: $FILES_OK"
-		git add "$FILES_OK"
+		git add ${FILES_OK}
 		git status
 		
 		# Ask for a commit message
