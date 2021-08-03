@@ -95,14 +95,14 @@ fi
 while [[ $# -gt 0 ]]; do
 	if [ -e "$1" ]; then # check if file exists
 		if [ -f "$1" ]; then # check if file is a regular file
-			FILES_OK+="$1 " # append to FILES_OK
+			FILES_OK+="$1 " # append to FILES_OK, if file is regular and exists
 		else # file is not a regular file
-		FILES_NOT_EXIST=""$FILES_NOT_EXIST" $1" # append to FILES_NOT_EXIST
+		FILES_NOT_EXIST+="$1 " # append to FILES_NOT_EXIST, if file is not regular
 		# at least one file is not regular
 		ALL_FILES_OK='NO'
 		fi
 	else # file does not exist
-		FILES_NOT_EXIST=""$FILES_NOT_EXIST" $1" # append to FILES_NOT_EXIST
+		FILES_NOT_EXIST+="$1 " # append to FILES_NOT_EXIST, if file does not exist
 		# at least one file does not exist
 		ALL_FILES_OK='NO'
 	fi
