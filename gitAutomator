@@ -6,9 +6,12 @@
 # 2) https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html
 
 # Global variables
-m_flag=''
-h_flag=''
+m_flag='' # flag for multiple commits
+h_flag='' # help menu/usage display
+v_flag='' # show running version/release of script
 files=''
+
+VERSION_NUMBER="1.0.2"
 
 print_usage () {
  
@@ -25,14 +28,28 @@ print_usage () {
 	return
 }
 
+print_version() {
+
+	# basename removes the trailing path for the program name
+	# the full program path can be always found in $0 
+	local PROGNAME="$(basename $0)"
+
+	printf "${PROGNAME}, version ${VERSION_NUMBER}\nEduardo Rodriguez Fernandez (@erodrigufer) (C) 2020\n" 
+
+	return
+}
+
 check_flags() {
-while getopts 'mh' flag; do
+while getopts 'mhv' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
 	h) h_flag='true' 
 		print_usage
 		exit 0;; # h_flag was specified
+	v) v_flag='true'
+		print_version
+		exit 0;; 
 	m) m_flag='true' ;; # m_flag was specified
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
