@@ -19,7 +19,9 @@ print_usage () {
   echo "$PROGNAME: usage: $PROGNAME [-h] [-ms] [file ...] 
 	-h Display usage/ man page
 	-m Perform multiple commits with one single call of the $PROGNAME script
-	-s Print git status at the start of the script"
+	-s Print git status at the start of the script
+	-v Display the current version/release of $PROGNAME
+	"
 	return
 }
 
