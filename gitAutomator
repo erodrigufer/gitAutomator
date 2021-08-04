@@ -19,7 +19,7 @@ print_usage () {
 	# the full program path can be always found in $0 
 	local PROGNAME=$(basename $0)
 
-  echo "$PROGNAME: usage: $PROGNAME [-h] [-ms] [file ...] 
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-ms] [file ...] 
 	-h Display usage/ man page
 	-m Perform multiple commits with one single call of the $PROGNAME script
 	-s Print git status at the start of the script
