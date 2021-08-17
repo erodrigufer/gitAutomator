@@ -11,7 +11,7 @@ h_flag='' # help menu/usage display
 v_flag='' # show running version/release of script
 files=''
 
-VERSION_NUMBER="1.0.2"
+VERSION_NUMBER="1.0.3"
 
 print_usage () {
  
