@@ -40,7 +40,7 @@ print_version() {
 }
 
 check_flags() {
-while getopts 'mhv' flag; do
+while getopts 'mhsv' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
@@ -50,6 +50,7 @@ while getopts 'mhv' flag; do
 	v) v_flag='true'
 		print_version
 		exit 0;; 
+	s) git status;;
 	m) m_flag='true' ;; # m_flag was specified
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
