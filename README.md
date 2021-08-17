@@ -12,6 +12,7 @@ usage: gitAutomator [-h] [-v] [-ms] [file ...]
 
 ```
 ## Releases
+* v1.0.3 is the fully working version for all -hmsv flags. (The last flag which was implemented was -s)
 * v1.0.0 should be able to handle all flags appropriately (except -h and -s). Nonetheless, it is a MVP and should improve your git commits handling massively.
 
 
