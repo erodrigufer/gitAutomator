@@ -22,7 +22,7 @@ print_usage () {
   echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-ms] [file ...] 
 	-h Display usage/ man page
 	-m Perform multiple commits with one single call of the $PROGNAME script
-	-s Display all files that have been modified since last commit at the start of the script
+	-s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
 	-v Display the current version/release of $PROGNAME
 	"
 	return
@@ -50,7 +50,9 @@ while getopts 'mhsv' flag; do
 	v) v_flag='true'
 		print_version
 		exit 0;; 
-	s) git status | grep modified: ;; # print only files that have been modified
+	s)
+		echo "The following files have been modified since the last commit: "
+		git status | grep modified: ;; # print only files that have been modified
 	m) m_flag='true' ;; # m_flag was specified
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
