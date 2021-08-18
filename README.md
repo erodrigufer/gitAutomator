@@ -7,7 +7,7 @@ usage: gitAutomator [-h] [-v] [-ms] [file ...]
 
 -h Display usage/ man page
 -m Perform multiple commits with one single call of this script
--s Print git status at the start of the script
+-s Display all files that have been modified since last commit at the star    t of the script
 -v Display the current version/release
 
 ```
