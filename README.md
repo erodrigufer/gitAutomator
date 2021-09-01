@@ -15,6 +15,7 @@ usage: gitAutomator [-h] [-v] [-mps] [file ...]
 
 -h Display usage/ man page
 -m Perform multiple commits with one single call of this script
+-p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the vim extension for gitAutomator, so that one can commit often, without losing time each time with the git push handshake.
 -s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
 -v Display the current version/release
 
