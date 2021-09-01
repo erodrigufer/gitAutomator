@@ -9,9 +9,26 @@
 m_flag='' # flag for multiple commits
 h_flag='' # help menu/usage display
 v_flag='' # show running version/release of script
+p_flag='' # do NOT push after commit
 files=''
 
-VERSION_NUMBER="1.0.4"
+VERSION_NUMBER="1.1.0"
+
+handlePushAndExit() {
+# in the first case the p flag was not set, so just push and exit
+	if [ -z "$p_flag" ]; then
+		git push --quiet && echo "Commit(s) pushed successfully!"
+		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
+		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
+		exit 0 # exit the script successfully
+	fi
+
+# in the second case the p flag was set, so just exit without pushing
+	if [ ! -z "$p_flag" ]; then
+		echo "Exiting without pushing commits staged!"
+		exit 0 # exit the script successfully
+	fi
+}
 
 print_usage () {
  
@@ -19,9 +36,10 @@ print_usage () {
 	# the full program path can be always found in $0 
 	local PROGNAME=$(basename $0)
 
-  echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-ms] [file ...] 
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-mps] [file ...] 
 	-h Display usage/ man page
 	-m Perform multiple commits with one single call of the $PROGNAME script
+	-p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the vim extension for ${PROGNAME}, so that one can commit often, without losing time each time with the git push handshake.
 	-s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
 	-v Display the current version/release of $PROGNAME
 	"
@@ -40,7 +58,7 @@ print_version() {
 }
 
 check_flags() {
-while getopts 'mhsv' flag; do
+while getopts 'mhpsv' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
@@ -54,6 +72,7 @@ while getopts 'mhsv' flag; do
 		echo "The following files have been modified since the last commit: "
 		git status | grep modified: ;; # print only files that have been modified
 	m) m_flag='true' ;; # m_flag was specified
+	p) p_flag='true' ;; # p_flag was specified
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
 	esac
@@ -199,10 +218,7 @@ main(){
 	git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
 	# if the m flag has zero length (not defined/false), then exit the program successfully, since no more commits are desired
 	if [ -z "$m_flag" ]; then
-		git push --quiet && echo "Commit(s) pushed successfully!"
-		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
-		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
-		exit 0 # exit the script successfully
+		handlePushAndExit # use this function to see if a push is desired and exit
 	fi # -- NO m flag
 
 ## TODO!! probably handle the cases in which git fails, for example, when there is no connection and it cannot be pushed, by reading the output of git push and git commit (!= 0 then there was an error)
@@ -217,10 +233,7 @@ main(){
 
 		# (n) no more commits will be performed
 		if [ "$UI_MORE_COMMITS" == "n" ]; then
-			git push --quiet && echo "Commit(s) pushed successfully!"
-			# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
-			# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
-			exit 0 # exit the script successfully
+			handlePushAndExit # use this function to see if a push is desired and exit
 		fi # --(n) no more commits
 
 		# (y) more commits will be performed start all over with the main function
@@ -230,6 +243,7 @@ main(){
 		
 		else # in this case, neither 'y' nor 'n' was used as input, push commits until now, and exit script (invalid input)
 			echo "Invalid input, proceeding to push all commits until now and exiting script!"
+			# TO DO: Am I really pushing all commits if there is an invalid input? Check that!
 		fi # --(y) more commits
 
 
