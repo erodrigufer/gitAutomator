@@ -11,7 +11,7 @@ gitAutomator will actually tell you when you have added an non-existant or non-r
 
 ## Usage
 ```
-usage: gitAutomator [-h] [-v] [-ms] [file ...] 
+usage: gitAutomator [-h] [-v] [-mps] [file ...] 
 
 -h Display usage/ man page
 -m Perform multiple commits with one single call of this script
