@@ -1,7 +1,12 @@
 #!/bin/bash
-# gitAutomator (ga) by Eduardo Rodriguez Fernandez (@erodrigufer)
+# ---------------------------------------------------------------------
+# gitAutomator (ga) by Eduardo Rodriguez Fernandez (@erodrigufer) 2021
 #
-# References:
+# Code licensed under BSD 3-Clause License, for more information check the LICENSE file attached to the repository.
+#
+#
+# ---------------------------------------------------------------------
+# Useful references on how to handle input flags/parameters in shell scripts:
 # 1) https://stackoverflow.com/questions/7069682/how-to-get-arguments-with-flags-in-bash
 # 2) https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html
 
