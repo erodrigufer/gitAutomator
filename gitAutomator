@@ -15,6 +15,7 @@ m_flag='' # flag for multiple commits
 h_flag='' # help menu/usage display
 v_flag='' # show running version/release of script
 p_flag='' # do NOT push after commit
+w_flag='' # run gh run watch command to see output of GitHub Actions job
 files=''
 
 VERSION_NUMBER="1.1.0"
@@ -42,12 +43,13 @@ print_usage () {
 	# the full program path can be always found in $0 
 	local PROGNAME=$(basename $0)
 
-  echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-mps] [file ...] 
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-ms[p][w]] [file ...] 
 	-h Display usage/ man page
 	-m Perform multiple commits with one single call of the $PROGNAME script
 	-p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the vim extension for ${PROGNAME}, so that one can commit often, without losing time each time with the git push handshake.
 	-s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
 	-v Display the current version/release of $PROGNAME
+	-w After pushing commits run *git run watch* to see the report for GitHub Actions of repository
 	"
 	return
 }
@@ -64,7 +66,7 @@ print_version() {
 }
 
 check_flags() {
-while getopts 'mhpsv' flag; do
+while getopts 'mhpsvw' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
@@ -79,6 +81,12 @@ while getopts 'mhpsv' flag; do
 		git status | grep modified: ;; # print only files that have been modified
 	m) m_flag='true' ;; # m_flag was specified
 	p) p_flag='true' ;; # p_flag was specified
+	w) w_flag='true' # w_flag was specified
+		# if the p flag was used, then w flag cannot be used
+		if [ ! -z "p_flag" ]; then
+			print_usage
+			exit 1;; 
+		fi
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
 	esac
