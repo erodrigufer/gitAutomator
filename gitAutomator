@@ -92,16 +92,21 @@ while getopts 'mhpsvw' flag; do
 		git status | grep modified: ;; # print only files that have been modified
 	m) m_flag='true' ;; # m_flag was specified
 	p) p_flag='true' ;; # p_flag was specified
-	w) w_flag='true' # w_flag was specified
-		# if the p flag was used, then w flag cannot be used
-		if [ ! -z "p_flag" ]; then
-			print_usage
-			exit 1
-		fi ;;
+	w) w_flag='true' ;; # w_flag was specified
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
 	esac
 done
+# check if p and w flag have been used simultaneously
+# if the p flag was used, then w flag cannot be used
+#if [ "$INPUT_MAIN" == "NO" ]; then
+if [ ! -z "${p_flag}" ]; then
+	if [ ! -z "${w_flag}" ]; then
+		print_usage
+		echo "chromers"
+		exit 1
+	fi
+fi
 
 # OPTIND equals 2 if the -m option is specified, if no flag is specified then OPTIND equals 1
 shift $(( OPTIND -1 ))
