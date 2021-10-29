@@ -20,7 +20,7 @@ files=''
 
 VERSION_NUMBER="1.1.0"
 
-# TO DO, when usinf the script in vim, it is not displaying the "Commits pushed successfully message"
+# TO DO, when using the script in vim, it is not displaying the "Commits pushed successfully message"
 handlePushAndExit() {
 # in the first case the p flag was not set, so just push and exit
 	if [ -z "$p_flag" ]; then
