@@ -24,7 +24,7 @@ VERSION_NUMBER="1.1.0"
 handlePushAndExit() {
 # in the first case the p flag was not set, so just push and exit
 	if [ -z "$p_flag" ]; then
-		git push --quiet && echo "Commit(s) pushed successfully!"
+		git push --quiet && echo 'Commit(s) pushed successfully!'
 		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
 		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
 		exit 0 # exit the script successfully
