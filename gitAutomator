@@ -103,7 +103,6 @@ done
 if [ ! -z "${p_flag}" ]; then
 	if [ ! -z "${w_flag}" ]; then
 		print_usage
-		echo "chromers"
 		exit 1
 	fi
 fi
