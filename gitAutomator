@@ -18,15 +18,25 @@ p_flag='' # do NOT push after commit
 w_flag='' # run gh run watch command to see output of GitHub Actions job
 files=''
 
-VERSION_NUMBER="1.1.0"
+VERSION_NUMBER="1.1.1"
 
 # TO DO, when using the script in vim, it is not displaying the "Commits pushed successfully message"
 handlePushAndExit() {
 # in the first case the p flag was not set, so just push and exit
 	if [ -z "$p_flag" ]; then
-		git push --quiet && echo 'Commit(s) pushed successfully!'
-		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
+		# By usign the -q flag or --quiet, git push suppresses all output, it could be interesting to use 
+		# the stdout output (or stderr) of git push and git commit and git status to get more information and see if an error has occurred
 		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
+		# if command fails, exit to avoid running the command for eventually flag 'w'
+		git push --quiet && echo 'Commit(s) pushed successfully!' || exit 1
+		
+		if [ -z "$w_flag" ]; then
+			# sleep for 1 second, because otherwise it is not possible to see if any GitHub Actions jobs are being executed
+			# after pushing to repo
+			sleep 1
+			gh run watch
+		fi
+
 		exit 0 # exit the script successfully
 	fi
 
