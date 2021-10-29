@@ -29,8 +29,9 @@ handlePushAndExit() {
 		# only if the commits were successfully pushed then (&&) echo to stdout that the commits were pushed
 		# if command fails, exit to avoid running the command for eventually flag 'w'
 		git push --quiet && echo 'Commit(s) pushed successfully!' || exit 1
-		
-		if [ -z "$w_flag" ]; then
+	
+		# w flag was set so check for jobs in github actions
+		if [ ! -z "$w_flag" ]; then
 			# sleep for 1 second, because otherwise it is not possible to see if any GitHub Actions jobs are being executed
 			# after pushing to repo
 			sleep 1
