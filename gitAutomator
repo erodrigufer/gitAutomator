@@ -18,7 +18,7 @@ p_flag='' # do NOT push after commit
 w_flag='' # run gh run watch command to see output of GitHub Actions job
 files=''
 
-VERSION_NUMBER="1.1.1"
+VERSION_NUMBER="1.1.2"
 
 # TO DO, when using the script in vim, it is not displaying the "Commits pushed successfully message"
 handlePushAndExit() {
