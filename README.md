@@ -21,6 +21,7 @@ usage: gitAutomator [-h] [-v] [-mps] [file ...]
 
 ```
 ## Releases
+* v1.1.2 correct bugs related to -w flag. -w flag was not tested properly
 * v1.1.1 introduces the -w flag to run *gh run watch* after pushing, in order to show any GitHub Actions jobs being executed
 * v1.1.0 introduces the -p flag, which allows you to perform commits without pushing to the remote repo. This flag is very useful when combined with key mappings in vim, so that one can perform a quick commit in normal mode, but does not lose that much time as when handling a git push handshake.
 * v1.0.4 greps the output of git status with the -s flag, in order to show the information in a more concise way.
