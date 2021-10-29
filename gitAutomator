@@ -95,8 +95,8 @@ while getopts 'mhpsvw' flag; do
 		# if the p flag was used, then w flag cannot be used
 		if [ ! -z "p_flag" ]; then
 			print_usage
-			exit 1;; 
-		fi
+			exit 1
+		fi ;;
 	*) print_usage # the case when an undefined flag is used
 			 exit 1 ;; # print usage and exit with an error
 	esac
