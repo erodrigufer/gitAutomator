@@ -18,7 +18,7 @@ p_flag='' # do NOT push after commit
 w_flag='' # run gh run watch command to see output of GitHub Actions job
 files=''
 
-VERSION_NUMBER="1.1.3"
+VERSION_NUMBER="1.1.4"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -37,7 +37,7 @@ handlePushAndExit() {
 		if [ ! -z "$w_flag" ]; then
 			# sleep for 1 second, because otherwise it is not possible to see if any GitHub Actions jobs are being executed
 			# after pushing to repo
-			sleep $(WAIT_TIME)
+			sleep ${WAIT_TIME}
 			gh run watch
 		fi
 
