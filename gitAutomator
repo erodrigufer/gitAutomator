@@ -18,7 +18,7 @@ p_flag='' # do NOT push after commit
 w_flag='' # run gh run watch command to see output of GitHub Actions job
 files=''
 
-VERSION_NUMBER="1.1.2"
+VERSION_NUMBER="1.1.3"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
