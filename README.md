@@ -21,6 +21,7 @@ usage: gitAutomator [-h] [-v] [-mps] [file ...]
 
 ```
 ## Releases
+* v1.1.4 fix bug with syntax of wait_time
 * v1.1.3 add variable for wait time before calling GitHub Actions API
 * v1.1.2 correct bugs related to -w flag. -w flag was not tested properly
 * v1.1.1 introduces the -w flag to run *gh run watch* after pushing, in order to show any GitHub Actions jobs being executed
