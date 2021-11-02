@@ -20,6 +20,9 @@ files=''
 
 VERSION_NUMBER="1.1.2"
 
+# time to wait before calling `gh run watch`to GitHub Actions API
+WAIT_TIME="3" # in seconds
+
 # TO DO, when using the script in vim, it is not displaying the "Commits pushed successfully message"
 handlePushAndExit() {
 # in the first case the p flag was not set, so just push and exit
@@ -34,7 +37,7 @@ handlePushAndExit() {
 		if [ ! -z "$w_flag" ]; then
 			# sleep for 1 second, because otherwise it is not possible to see if any GitHub Actions jobs are being executed
 			# after pushing to repo
-			sleep 1
+			sleep $(WAIT_TIME)
 			gh run watch
 		fi
 
