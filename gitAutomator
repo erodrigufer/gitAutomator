@@ -74,7 +74,7 @@ print_version() {
 	# the full program path can be always found in $0 
 	local PROGNAME="$(basename $0)"
 
-	printf "${PROGNAME}, version ${VERSION_NUMBER}\nEduardo Rodriguez Fernandez (@erodrigufer) Copyright (c) 2021\nBSD 3-Clause License\n" 
+	printf "${PROGNAME}, version ${VERSION_NUMBER}\nEduardo Rodriguez Fernandez (@erodrigufer) Copyright (c) 2021\n[BSD 3-Clause License]\n" 
 
 	return
 }
