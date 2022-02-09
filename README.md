@@ -10,11 +10,12 @@ gitAutomator will actually tell you when you have added a non-existant or non-re
 
 ## Usage
 ```
-usage: gitAutomator [-h] [-v] [-mps] [file ...] 
+usage: gitAutomator [-h] [-r] [-v] [-mps] [file ...] 
 
 -h Display usage/ man page
 -m Perform multiple commits with one single call of this script
 -p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the vim extension for gitAutomator, so that one can commit often, without losing time each time with the git push handshake.
+-r Create a new release using the gh API
 -s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
 -v Display the current version/release
 -w After pushing commits run *gh run watch* to see the report for GitHub Actions of repository

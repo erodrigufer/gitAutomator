@@ -2,7 +2,8 @@
 # ---------------------------------------------------------------------
 # gitAutomator (ga) by Eduardo Rodriguez Fernandez (@erodrigufer) 2021
 #
-# Code licensed under BSD 3-Clause License, for more information check the LICENSE file attached to the repository.
+# Code licensed under BSD 3-Clause License, 
+# for more information check the LICENSE file attached to the repository.
 #
 #
 # ---------------------------------------------------------------------
@@ -16,9 +17,10 @@ h_flag='' # help menu/usage display
 v_flag='' # show running version/release of script
 p_flag='' # do NOT push after commit
 w_flag='' # run gh run watch command to see output of GitHub Actions job
+r_flag='' # create a new release with the gh API
 files=''
 
-VERSION_NUMBER="1.1.4"
+VERSION_NUMBER="1.2.0"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -57,10 +59,11 @@ print_usage () {
 	# the full program path can be always found in $0 
 	local PROGNAME=$(basename $0)
 
-  echo "$PROGNAME: usage: $PROGNAME [-h] [-v] [-ms[p][w]] [file ...] 
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-r] [-v] [-ms[p][w]] [file ...] 
 	-h Display usage/ man page
 	-m Perform multiple commits with one single call of the $PROGNAME script
 	-p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the vim extension for ${PROGNAME}, so that one can commit often, without losing time each time with the git push handshake.
+	-r Create a new release using the gh API
 	-s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
 	-v Display the current version/release of $PROGNAME
 	-w After pushing commits execute *gh run watch* to see the report of GitHub Actions of repository
@@ -79,8 +82,29 @@ print_version() {
 	return
 }
 
+create_new_release(){
+
+	printf "* Creating a new release...\nThis is a list of all current releases in this repository: \n"
+	# Print only the version names using awk (the names are in the first column)
+	gh release list | awk {'print $1'}
+
+	read -p "Pick a version (name) for the new release > "
+	local VERSION_TAG="$(echo "$REPLY")"
+	echo "Version: $VERSION_TAG"
+
+	# check if there is a CHANGELOG.md file in the repo, if there is, then use the CHANGELOG.md file 
+	# as the release notes, otherwise ask the user to input its own release notes
+	[ -f ./CHANGELOG.md ] && echo "Using the file CHANGELOG.md as the release notes" && gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" -F ./CHANGELOG.md && { echo "New release ${VERSION_TAG} was created successfully!" ; exit 0; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
+
+	read -p "CHANGELOG.md file was not found, add a release note > "
+	local RELEASE_NOTE="$(echo "$REPLY")"
+
+	gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && { echo "New release ${VERSION_TAG} was created successfully!" ; exit 0; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
+
+}
+
 check_flags() {
-while getopts 'mhpsvw' flag; do
+while getopts 'mhprsvw' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
@@ -90,6 +114,9 @@ while getopts 'mhpsvw' flag; do
 	v) v_flag='true'
 		print_version
 		exit 0;; 
+	r) r_flag='true'
+		create_new_release
+		exit 0;;
 	s)
 		echo "The following files have been modified since the last commit: "
 		git status | grep modified: ;; # print only files that have been modified
