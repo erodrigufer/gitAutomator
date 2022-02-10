@@ -1,3 +1,7 @@
+## v1.2.2
+* Fix bug with wait time, before fetching tags after creating a new release.
+Otherwise, the server did not have time to fetch the new tags, right after
+creating a new release.
 ## v1.2.1
 * Fetch tags to local repo, after creating a new release
 ## v1.2.0
