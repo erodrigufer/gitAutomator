@@ -101,6 +101,9 @@ create_new_release(){
 
 	gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && { echo "New release ${VERSION_TAG} was created successfully!" ; exit 0; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
 
+	# Fetch new tags to local repo
+	git fetch --tags origin
+
 }
 
 check_flags() {
