@@ -1,3 +1,6 @@
+## v1.3.0
+* Waiting bug was still present, fix it.
+* Ask during -r (release) if release is a pre-release
 ## v1.2.3
 * Truely fix the fetch waiting bug
 ## v1.2.2

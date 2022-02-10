@@ -20,7 +20,7 @@ w_flag='' # run gh run watch command to see output of GitHub Actions job
 r_flag='' # create a new release with the gh API
 files=''
 
-VERSION_NUMBER="1.2.3"
+VERSION_NUMBER="1.3.0"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -82,6 +82,17 @@ print_version() {
 	return
 }
 
+# after pushing a new release, fetch the new version tags into your local repo
+fetch_new_tags(){
+	# Sleep before fetching tags, otherwise no tags are fetched. Give server some time, after sending new release request.
+	echo "Fetching new tags to local repository..."
+	sleep 2	# sleep 2 seconds
+
+	# Fetch new tags to local repo
+	git fetch --tags origin && echo "New tags fetched to local repository." || { echo "[ERROR] Fetching tags failed!"; exit -1 ; }
+	return 0
+}
+
 create_new_release(){
 
 	printf "* Creating a new release...\nThis is a list of all current releases in this repository: \n"
@@ -92,21 +103,34 @@ create_new_release(){
 	local VERSION_TAG="$(echo "$REPLY")"
 	echo "Version: $VERSION_TAG"
 
+	read -p "Is this a pre-release? (y/n) > "
+	# store the output of piping the echo of the reply to tr,
+	# in order to use tr to translate all uppercase letters to lowercase letter
+	# (if necessary)
+	local PRE_RELEASE="$(echo "$REPLY" | tr [:upper:] [:lower:])"
+	local PRE_RELEASE_FLAG='' # if it is a pre-release, then this flag will be populated
+
+	# it is a pre-release
+	if [ "${PRE_RELEASE}" == "y" ]; then
+		PRE_RELEASE_FLAG='--prerelease'
+	fi
+
+	# it is not a pre-release
+	if [ "${PRE_RELEASE}" != "y" ]; then
+		# the input wasn't either 'y' or 'n'
+		if [ "${PRE_RELEASE}" != "n" ]; then
+			echo "Invalid input, this release will be handled as NOT being a pre-release..."
+		fi
+	fi
+
 	# check if there is a CHANGELOG.md file in the repo, if there is, then use the CHANGELOG.md file 
 	# as the release notes, otherwise ask the user to input its own release notes
-	[ -f ./CHANGELOG.md ] && echo "Using the file CHANGELOG.md as the release notes" && gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" -F ./CHANGELOG.md && { echo "New release ${VERSION_TAG} was created successfully!" ; exit 0; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
+	[ -f ./CHANGELOG.md ] && echo "Using the file CHANGELOG.md as the release notes" && gh release create "${VERSION_TAG}" ${PRE_RELEASE_FLAG} --title="${VERSION_TAG}" -F ./CHANGELOG.md && { echo "New release ${VERSION_TAG} was created successfully!" ; fetch_new_tags ; exit 0 ; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
 
 	read -p "CHANGELOG.md file was not found, add a release note > "
 	local RELEASE_NOTE="$(echo "$REPLY")"
 
-	gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && echo "New release ${VERSION_TAG} was created successfully!" || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
-
-	# Sleep before fetching tags, otherwise no tags are fetched. Give server time.
-	echo "Fetching new tags to local repository..."
-	sleep 2	# sleep 2 seconds
-
-	# Fetch new tags to local repo
-	git fetch --tags origin && echo "New tags fetched to local repository." || echo "[ERROR] Fetching tags failed!"
+	gh release create "${VERSION_TAG}" ${PRE_RELEASE_FLAG} --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && { echo "New release ${VERSION_TAG} was created successfully!" ; fetch_new_tags ; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
 
 	exit 0
 
