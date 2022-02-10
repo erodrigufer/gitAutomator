@@ -99,14 +99,16 @@ create_new_release(){
 	read -p "CHANGELOG.md file was not found, add a release note > "
 	local RELEASE_NOTE="$(echo "$REPLY")"
 
-	gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && { echo "New release ${VERSION_TAG} was created successfully!" ; exit 0; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
+	gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && echo "New release ${VERSION_TAG} was created successfully!" || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
 
 	# Sleep before fetching tags, otherwise no tags are fetched. Give server time.
 	echo "Fetching new tags to local repository..."
-	sleep ${WAIT_TIME}
+	sleep 2	# sleep 2 seconds
 
 	# Fetch new tags to local repo
 	git fetch --tags origin && echo "New tags fetched to local repository." || echo "[ERROR] Fetching tags failed!"
+
+	exit 0
 
 }
 
