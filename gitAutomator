@@ -20,7 +20,7 @@ w_flag='' # run gh run watch command to see output of GitHub Actions job
 r_flag='' # create a new release with the gh API
 files=''
 
-VERSION_NUMBER="1.2.1"
+VERSION_NUMBER="1.2.2"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -101,8 +101,12 @@ create_new_release(){
 
 	gh release create "${VERSION_TAG}" --title="${VERSION_TAG}" --notes="${RELEASE_NOTE}" && { echo "New release ${VERSION_TAG} was created successfully!" ; exit 0; } || { echo "[ERROR] An error occured while pushing the new release to GitHub!" ; exit -1 ; }
 
+	# Sleep before fetching tags, otherwise no tags are fetched. Give server time.
+	echo "Fetching new tags to local repository..."
+	sleep ${WAIT_TIME}
+
 	# Fetch new tags to local repo
-	git fetch --tags origin
+	git fetch --tags origin && echo "New tags fetched to local repository." || echo "[ERROR] Fetching tags failed!"
 
 }
 
