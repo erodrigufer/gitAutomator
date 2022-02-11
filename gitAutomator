@@ -97,7 +97,8 @@ create_new_release(){
 
 	printf "* Creating a new release...\nThis is a list of all current releases in this repository: \n"
 	# Print only the version names using awk (the names are in the first column)
-	gh release list | awk {'print $1'}
+	# Only print the last 10 releases, so that the list does not take all the screen when the repo has too many releases
+	gh release list | awk {'print $1'} | head -n 10
 
 	read -p "Pick a version (name) for the new release > "
 	local VERSION_TAG="$(echo "$REPLY")"
