@@ -1,3 +1,5 @@
+## v1.3.1
+* Limit number of release versions showed in the list to up to 10 (using head -n 10)
 ## v1.3.0
 * Waiting bug was still present, fix it.
 * Ask during -r (release) if release is a pre-release
