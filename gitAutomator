@@ -18,12 +18,24 @@ v_flag='' # show running version/release of script
 p_flag='' # do NOT push after commit
 w_flag='' # run gh run watch command to see output of GitHub Actions job
 r_flag='' # create a new release with the gh API
+l_flag='' # show sanitized/pretty git log output
 files=''
 
-VERSION_NUMBER="1.3.1"
+VERSION_NUMBER="1.4.0"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
+
+pretty_git_log(){
+	# %h : short hash of commit
+	# %Cblue : start printing in blue
+	# %Creset : reset to no colour
+	# %d : tags, origin and HEAD
+	# %s : commit's subject
+	# %ar : relative time at which commit was performed
+	# -20 : amount of commits to show since last commit
+	git log -20 --pretty=format:"* %h:%Cblue%d%Creset %s (%ar)"
+}
 
 # TO DO, when using the script in vim, it is not displaying the "Commits pushed successfully message"
 handlePushAndExit() {
@@ -59,8 +71,9 @@ print_usage () {
 	# the full program path can be always found in $0 
 	local PROGNAME=$(basename $0)
 
-  echo "$PROGNAME: usage: $PROGNAME [-h] [-r] [-v] [-ms[p][w]] [file ...] 
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-l] [-r] [-v] [-ms[p][w]] [file ...] 
 	-h Display usage/ man page
+	-l Show git log sanitized output
 	-m Perform multiple commits with one single call of the $PROGNAME script
 	-p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the vim extension for ${PROGNAME}, so that one can commit often, without losing time each time with the git push handshake.
 	-r Create a new release using the gh API
@@ -138,7 +151,7 @@ create_new_release(){
 }
 
 check_flags() {
-while getopts 'mhprsvw' flag; do
+while getopts 'hlmprsvw' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
@@ -148,6 +161,9 @@ while getopts 'mhprsvw' flag; do
 	v) v_flag='true'
 		print_version
 		exit 0;; 
+	l) l_flag='true'
+		pretty_git_log
+		exit 0;;
 	r) r_flag='true'
 		create_new_release
 		exit 0;;

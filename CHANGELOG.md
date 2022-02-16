@@ -1,3 +1,5 @@
+## v1.4.0
+* Add -l flag to print sanitized output of git log
 ## v1.3.1
 * Limit number of release versions showed in the list to up to 10 (using head -n 10)
 ## v1.3.0
