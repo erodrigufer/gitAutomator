@@ -1,5 +1,5 @@
 # gitAutomator
-Shell script to automate creating and pushing commits to a git repository.
+Shell script to automate creating and pushing commits to a git repository, creating releases in GitHub, showing a pretty/sanitized form of *git log* and/or show you the report from your GitHub Actions after pushing your local repo.
 
 ## Description
 Add gitAutomator to your path and start commiting and pushing to your git repository through an interactive command line script. After invoking gitAutomator, the script will automatically guide you through adding files and comments to your commits, until you are ready to push all the commits to your repository.
@@ -10,7 +10,7 @@ gitAutomator will actually tell you when you have added a non-existant or non-re
 
 ## Usage
 ```
-usage: gitAutomator [-h] [-l] [-r] [-v] [-mps] [file ...] 
+usage: gitAutomator [-h] [-l] [-r] [-v] [-mps] [file(s) ...] 
 
 -h Display usage/ man page
 -l Show git log sanitized output
