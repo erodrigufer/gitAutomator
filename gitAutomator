@@ -12,6 +12,7 @@
 # 2) https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getopts.html
 
 # Global variables
+a_flag='' # flag to stage all changes, modifications, deletions and new files
 m_flag='' # flag for multiple commits
 h_flag='' # help menu/usage display
 v_flag='' # show running version/release of script
@@ -21,7 +22,7 @@ r_flag='' # create a new release with the gh API
 l_flag='' # show sanitized/pretty git log output
 files=''
 
-VERSION_NUMBER="1.4.0"
+VERSION_NUMBER="1.5.0"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -71,7 +72,8 @@ print_usage () {
 	# the full program path can be always found in $0 
 	local PROGNAME=$(basename $0)
 
-  echo "$PROGNAME: usage: $PROGNAME [-h] [-l] [-r] [-v] [-ms[p][w]] [file ...] 
+  echo "$PROGNAME: usage: $PROGNAME [-h] [-l] [-r] [-v] [[-ms|a][p][w]] [file ...] 
+    -a Stage all changes, modifications, deletions and new files
 	-h Display usage/ man page
 	-l Show git log sanitized output
 	-m Perform multiple commits with one single call of the $PROGNAME script
@@ -151,7 +153,7 @@ create_new_release(){
 }
 
 check_flags() {
-while getopts 'hlmprsvw' flag; do
+while getopts 'ahlmprsvw' flag; do
 # Note: If a character is followed by a colon (e.g. f:), that option is expected to have an argument
 # If it does not provide an argument an error message will be shown
 	case "${flag}" in
@@ -170,6 +172,7 @@ while getopts 'hlmprsvw' flag; do
 	s)
 		echo "The following files have been modified since the last commit: "
 		git status | grep modified: ;; # print only files that have been modified
+	a) a_flag='true' ;; # a_flag was specified
 	m) m_flag='true' ;; # m_flag was specified
 	p) p_flag='true' ;; # p_flag was specified
 	w) w_flag='true' ;; # w_flag was specified
@@ -254,12 +257,29 @@ ask_for_files() {
 	echo "$REPLY"
 }
 
+stage_all_changes() {
+	git add -A && echo "Staging all changes to commit."
+
+	# Ask for a commit message
+	read -p "Add a commit message: > "
+	# if commit is accepted, print the commit message
+	git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+
+	handlePushAndExit
+
+}
+
 main(){
 	# INPUT_MAIN can be either "YES" or "NO"
 	INPUT_MAIN=$1
 
 	local FILES_TO_CHECK=$files
-	
+
+	# if the a_flag is not empty, stage all changes
+	if [ ! -z "$a_flag" ]; then
+		stage_all_changes
+	fi
+
 	#local UI_MORE_FILES=''
 
 	if [ "$INPUT_MAIN" == "NO" ]; then

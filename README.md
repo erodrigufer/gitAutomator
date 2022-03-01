@@ -10,8 +10,9 @@ gitAutomator will actually tell you when you have added a non-existant or non-re
 
 ## Usage
 ```
-usage: gitAutomator [-h] [-l] [-r] [-v] [-mps] [file(s) ...] 
+usage: gitAutomator [-h] [-l] [-r] [-v] [[-ms|a][p][w]] [file(s) ...] 
 
+-a Stage all changes, modifications, deletions and new files
 -h Display usage/ man page
 -l Show git log sanitized output
 -m Perform multiple commits with one single call of this script
