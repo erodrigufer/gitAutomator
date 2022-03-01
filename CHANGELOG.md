@@ -1,5 +1,6 @@
 ## v1.5.0
 * Add -a flag to stage all modifications in the commit (file modifications, deletions and new files)
+* Add a Makefile for easy installation (linking) of script
 ## v1.4.0
 * Add -l flag to print sanitized output of git log
 ## v1.3.1
