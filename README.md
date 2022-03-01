@@ -24,3 +24,10 @@ usage: gitAutomator [-h] [-l] [-r] [-v] [[-ms|a][p][w]] [file(s) ...]
 
 ```
 
+## Installation and update
+1. Create a folder at `~/bin`, and add this folder to the _path_ of your terminal.
+2. After adding the folder to the path, source your terminal rc file.
+3. Run `make`.
+4. A file named `ga` at `~/bin` will be a symbolic link to the `gitAutomator` file in your local repository.
+5. You can now use the command `ga` with any of the available flags.
+
