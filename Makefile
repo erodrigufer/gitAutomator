@@ -13,3 +13,5 @@ link:
 	@# -f: (force) if the target file already exists, unlink it, so that the link
 	@#  can occur
 	@ln -sf $(REPO)/gitAutomator ~/bin/ga
+
+.PHONY : link
