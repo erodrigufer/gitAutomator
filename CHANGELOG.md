@@ -1,3 +1,5 @@
+## v1.5.1
+* Minor changes to improve readibility of -h help menu printed by the program
 ## v1.5.0
 * Add -a flag to stage all modifications in the commit (file modifications, deletions and new files)
 * Add a Makefile for easy installation (linking) of script
