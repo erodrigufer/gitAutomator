@@ -1,3 +1,5 @@
+## v1.5.3
+* Minor change, change phrasing of list with latest releases when using -r flag
 ## v1.5.2
 * Improve readability of README file. 
 * Makefile now creates `~/bin` if necessary
