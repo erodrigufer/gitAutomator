@@ -6,7 +6,7 @@ all: link
 link: 
 	@# Create ~/bin directory if it did not exist before
 	@# This directory should be added before hand to the path of your terminal
-	@# @mkdir -p ~/bin
+	@mkdir -p ~/bin
 	@# Link the shell script for gitAutomator with a shell script named ga inside
 	@# the ~/bin folder
 	@# -s: create a symbolic link
