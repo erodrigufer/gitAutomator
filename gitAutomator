@@ -22,7 +22,7 @@ r_flag='' # create a new release with the gh API
 l_flag='' # show sanitized/pretty git log output
 files=''
 
-VERSION_NUMBER="1.5.1"
+VERSION_NUMBER="1.5.2"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -77,12 +77,15 @@ print_usage () {
 	-h Display usage/ man page
 	-l Show git log sanitized output
 	-m Perform multiple commits with one single call of the $PROGNAME script
-	-p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the 
-	   vim extension for ${PROGNAME}, so that one can commit often, without losing time each time with the git push handshake.
+	-p Commit files on local repo, but do NOT push to remote. This option is 
+	   useful, if working with the vim extension for ${PROGNAME}, so that one 
+	   can commit often, without losing time with the git push handshake.
 	-r Create a new release using the gh API
-	-s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
+	-s Display all files that have been modified since last commit at the start 
+	   of the script (simplified version of invoking *git status*)
 	-v Display the current version/release of $PROGNAME
-	-w After pushing commits execute *gh run watch* to see the report of GitHub Actions of repository
+	-w After pushing commits execute *gh run watch* to see the report of the 
+	   GitHub Actions of the repository
 	"
 	return
 }
