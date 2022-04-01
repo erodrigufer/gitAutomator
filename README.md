@@ -16,19 +16,23 @@ usage: gitAutomator [-h] [-l] [-r] [-v] [[-ms|a][p][w]] [file(s) ...]
 -h Display usage/ man page
 -l Show git log sanitized output
 -m Perform multiple commits with one single call of this script
--p Commit files on local repo, but do NOT push to remote. This option is useful, if working with the 
-   vim extension for gitAutomator, so that one can commit often, without losing time each time with the git push handshake.
+-p Commit files on local repo, but do NOT push to remote. This option is useful, 
+   when working with the vim extension for gitAutomator, so that one can commit 
+   often, without losing time each time with the git push handshake.
 -r Create a new release using the gh API
--s Display all files that have been modified since last commit at the start of the script (simplified version of invoking *git status*)
+-s Display all files that have been modified since last commit at the start of 
+   the script (simplified version of invoking *git status*)
 -v Display the current version/release
--w After pushing commits run *gh run watch* to see the report for GitHub Actions of repository
+-w After pushing commits run *gh run watch* to see the report for the GitHub 
+   Actions of the current repository
 
 ```
 
 ## Installation and update
-1. Create a folder at `~/bin`, and add this folder to the _path_ of your terminal.
-2. After adding the folder to the path, source your terminal rc file.
-3. Run `make`.
-4. A file named `ga` at `~/bin` will be a symbolic link to the `gitAutomator` file in your local repository.
-5. You can now use the command `ga` with any of the available flags.
+1. Run `make`.
+2. A file named `ga` at `~/bin` will be a symbolic link to the `gitAutomator` 
+file in your local repository.
+3. Make sure that `~/bin` has been added to `PATH` in your terminal rc file.
+Otherwise, your terminal will not be able to locate the `ga` executable.
+4. You can now use the command `ga` to call gitAutomator 
 
