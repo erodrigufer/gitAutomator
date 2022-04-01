@@ -22,7 +22,7 @@ r_flag='' # create a new release with the gh API
 l_flag='' # show sanitized/pretty git log output
 files=''
 
-VERSION_NUMBER="1.5.2"
+VERSION_NUMBER="1.5.3"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -114,7 +114,7 @@ fetch_new_tags(){
 
 create_new_release(){
 
-	printf "* Creating a new release...\nThis is a list of all current releases in this repository: \n"
+	printf "* Creating a new release...\nThis is a list of the latest releases in this repository: \n"
 	# Print only the version names using awk (the names are in the first column)
 	# Only print the last 10 releases, so that the list does not take all the screen when the repo has too many releases
 	gh release list | awk {'print $1'} | head -n 10
