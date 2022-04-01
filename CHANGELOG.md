@@ -1,3 +1,6 @@
+## v1.5.2
+* Improve readability of README file. 
+* Makefile now creates `~/bin` if necessary
 ## v1.5.1
 * Minor changes to improve readibility of -h help menu printed by the program
 ## v1.5.0
