@@ -264,10 +264,15 @@ ask_for_files() {
 stage_all_changes() {
 	git add -A && echo "Staging all changes to commit."
 
-	# Ask for a commit message
-	read -p "Add a commit message: > "
-	# if commit is accepted, print the commit message
-	git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+	# # Ask for a commit message
+	# read -p "Add a commit message: > "
+	# # if commit is accepted, print the commit message
+	# git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+
+	# I could in theory also do to options, one using the --edit flag, so that
+	# even a commit that gets a message supplied through the -m flag, opens an
+	# editor to further modify the commit message.
+	git commit --quiet
 
 	handlePushAndExit
 
@@ -346,9 +351,10 @@ main(){
 
 
 	# Ask for a commit message
-	read -p "Add a commit message: > "
+	# read -p "Add a commit message: > "
 	# if commit is accepted, print the commit message
-	git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+	# git commit --quiet -m "$REPLY" && echo "Commit message: $REPLY"
+	git commit --quiet 
 	# if the m flag has zero length (not defined/false), then exit the program successfully, since no more commits are desired
 	if [ -z "$m_flag" ]; then
 		handlePushAndExit # use this function to see if a push is desired and exit
