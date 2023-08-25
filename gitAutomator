@@ -22,7 +22,7 @@ r_flag='' # create a new release with the gh API
 l_flag='' # show sanitized/pretty git log output
 files=''
 
-VERSION_NUMBER="1.6.0"
+VERSION_NUMBER="1.6.1"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds

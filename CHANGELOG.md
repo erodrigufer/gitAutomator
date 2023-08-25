@@ -1,3 +1,5 @@
+## v1.6.1
+* Change style of `ga -l` output. Change colors, add author of commit to output.
 ## v1.5.3
 * Minor change, change phrasing of list with latest releases when using -r flag
 ## v1.5.2
