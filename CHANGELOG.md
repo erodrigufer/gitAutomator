@@ -1,3 +1,5 @@
+## v1.6.2
+* Remove blue color from `ga -l` output.
 ## v1.6.1
 * Change style of `ga -l` output. Change colors, add author of commit to output.
 ## v1.5.3

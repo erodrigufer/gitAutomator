@@ -22,7 +22,7 @@ r_flag='' # create a new release with the gh API
 l_flag='' # show sanitized/pretty git log output
 files=''
 
-VERSION_NUMBER="1.6.1"
+VERSION_NUMBER="1.6.2"
 
 # time to wait before calling `gh run watch`to GitHub Actions API
 WAIT_TIME="3" # in seconds
@@ -37,7 +37,7 @@ pretty_git_log(){
 	# %ar : relative time at which commit was performed
 	# %an : author of commit
 	# -20 : amount of commits to show since last commit
-	git log -20 --pretty=format:"* %h:%Cgreen%d%Creset %Cblue%s%Creset (%ar) [%Cred%an%Creset]"
+	git log -20 --pretty=format:"* %h:%Cgreen%d%Creset %s (%ar) [%Cred%an%Creset]"
 }
 
 # TO DO, when using the script in vim, it is not displaying the "Commits pushed successfully message"
